@@ -63,7 +63,7 @@ export default function RuletaCanvas({
     ctx.lineTo(centro + 15, 10);
     ctx.lineTo(centro, 35);
     ctx.closePath();
-    ctx.fillStyle = "#e74c3c";
+    ctx.fillStyle = "#E5127E";
     ctx.fill();
     ctx.strokeStyle = "#ffffff";
     ctx.stroke();
@@ -117,11 +117,15 @@ export default function RuletaCanvas({
   };
 
   return (
-    <Paper elevation={3} sx={{ p: 3, textAlign: "center", borderRadius: 3 }}>
-      <Typography variant='h5' fontWeight='bold' gutterBottom color='primary'>
-        🎯 Ruleta del Sorteo
-      </Typography>
-
+    <Paper
+      elevation={0}
+      sx={{
+        p: 3,
+        textAlign: "center",
+        borderRadius: 3,
+        bgcolor: "transparent",
+      }}
+    >
       {participantes.length === 0 && (
         <Alert severity='warning' sx={{ mb: 2 }}>
           Debes registrar al menos 1 participante para girar la ruleta.
@@ -140,14 +144,22 @@ export default function RuletaCanvas({
 
       <Button
         variant='contained'
-        color='secondary'
         size='large'
         startIcon={<PlayArrowIcon />}
         onClick={girar}
         disabled={
           girando || premiosValidos.length === 0 || participantes.length === 0
         }
-        sx={{ px: 4, py: 1.5, fontSize: "1.1rem", borderRadius: 2 }}
+        color='secondary'
+        sx={{
+          px: 4,
+          py: 1.5,
+          fontSize: "1.1rem",
+          borderRadius: 2,
+          bgcolor: "#fff",
+          color: "#E5127E",
+          fontWeight: "bold",
+        }}
       >
         {girando ? "¡Girando ruleta...!" : "¡Girar Ruleta!"}
       </Button>
