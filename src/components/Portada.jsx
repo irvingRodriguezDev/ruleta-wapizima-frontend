@@ -1,84 +1,90 @@
 import { Box, Button, Typography } from "@mui/material";
-import LogoFiesta from "../assets/fiesta_mexicana_limpia.png";
 import { motion } from "framer-motion";
-const Portada = ({ siguienteLugar }) => {
+import CarouselGaleria from "./CarouselGaleria";
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.18,
+      delayChildren: 0.1,
+    },
+  },
+  exit: {
+    opacity: 0,
+    y: -30,
+    transition: { duration: 0.4, ease: "easeIn" },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 25 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const Portada = ({ siguienteLugar, imagenes }) => {
   return (
     <motion.div
       key='inicio'
-      initial={{ opacity: 0, y: 40 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -40 }}
-      transition={{
-        duration: 0.7,
-        ease: "easeOut",
-      }}
-      style={{
-        width: "100%",
-      }}
+      variants={containerVariants}
+      initial='hidden'
+      animate='visible'
+      exit='exit'
+      style={{ width: "100%", position: "relative" }}
     >
+      {/* Halo de luz decorativo de fondo */}
       <Box
         sx={{
+          position: "absolute",
+          top: "-10%",
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: { xs: "300px", sm: "500px", md: "700px" },
+          height: { xs: "300px", sm: "500px", md: "700px" },
+          background:
+            "radial-gradient(circle, rgba(229,18,126,0.08) 0%, rgba(255,255,255,0) 70%)",
+          pointerEvents: "none",
+          zIndex: 0,
+        }}
+      />
+
+      <Box
+        sx={{
+          position: "relative",
+          zIndex: 1,
           textAlign: "center",
-          maxWidth: 900,
           mx: "auto",
+          px: { xs: 2, sm: 4 },
+          pt: { xs: 2, sm: 4 },
         }}
       >
-        {/* Etiqueta */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{
-            delay: 0.2,
-            duration: 0.6,
-          }}
-        >
-          <Typography
-            sx={{
-              color: "#E5127E",
-              fontWeight: 700,
-              letterSpacing: 3,
-              fontSize: {
-                xs: "0.75rem",
-                sm: "0.9rem",
-              },
-              mb: 2,
-              textTransform: "uppercase",
-            }}
-          >
-            <img src={LogoFiesta} style={{ width: "220px", height: "150px" }} />
-          </Typography>
-        </motion.div>
-
-        {/* Título */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            delay: 0.35,
-            duration: 0.7,
-          }}
-        >
+        {/* Título Principal */}
+        <motion.div variants={itemVariants}>
           <Typography
             component='h1'
             sx={{
-              fontSize: {
-                xs: "2.5rem",
-                sm: "4rem",
-                md: "5.5rem",
-              },
-              lineHeight: 0.95,
+              fontSize: { xs: "2.4rem", sm: "3.8rem", md: "4.5rem" },
+              lineHeight: 1,
               fontWeight: 900,
-              color: "#E5127E",
-              mb: 3,
-              letterSpacing: "-2px",
+              color: "#1A1A1A",
+              mb: 2.5,
+              mt: -10,
+              letterSpacing: "-1.5px",
             }}
           >
-            Conoce a las
-            <br />
+            Conoce a las{" "}
             <Box
               component='span'
               sx={{
-                color: "#2E2E2E",
+                background: "linear-gradient(135deg, #E5127E 0%, #B30A5F 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                display: "inline-block",
               }}
             >
               ganadoras
@@ -86,113 +92,90 @@ const Portada = ({ siguienteLugar }) => {
           </Typography>
         </motion.div>
 
-        {/* Línea decorativa */}
-        <motion.div
-          initial={{ width: 0, opacity: 0 }}
-          animate={{
-            width: 120,
-            opacity: 1,
-          }}
-          transition={{
-            delay: 0.7,
-            duration: 0.6,
-          }}
-          style={{
-            height: 4,
-            background: "#E5127E",
-            margin: "0 auto 30px",
-            borderRadius: 10,
-          }}
-        />
+        {/* Separador elegante con estilo Neón/Wapizima */}
+        <motion.div variants={itemVariants}>
+          <Box
+            sx={{
+              width: 80,
+              height: 4,
+              background: "linear-gradient(90deg, #E5127E 0%, #FF65B3 100%)",
+              margin: "0 auto 32px",
+              borderRadius: 10,
+              boxShadow: "0 2px 10px rgba(229, 18, 126, 0.4)",
+            }}
+          />
+        </motion.div>
 
-        {/* Texto */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            delay: 0.8,
-            duration: 0.7,
-          }}
-        >
+        {/* Textos descriptivos */}
+        <motion.div variants={itemVariants}>
           <Typography
             sx={{
-              color: "#555",
-              fontSize: {
-                xs: "1rem",
-                sm: "1.15rem",
-                md: "1.3rem",
-              },
+              color: "#333333",
+              fontSize: { xs: "1rem", sm: "1.18rem" },
+              fontWeight: 500,
               lineHeight: 1.8,
-              maxWidth: 750,
+              maxWidth: 720,
               mx: "auto",
               mb: 2,
             }}
           >
-            Gracias a todas las participantes que se tomaron el tiempo, la
-            dedicación y el cariño para formar parte de esta dinámica.
+            Gracias a todas las participantes que entregaron su talento,
+            dedicación y pasión en cada creación para formar parte de esta
+            edición.
           </Typography>
 
           <Typography
             sx={{
-              color: "#777",
-              fontSize: {
-                xs: "0.95rem",
-                sm: "1.05rem",
-              },
+              color: "#666666",
+              fontSize: { xs: "0.92rem", sm: "1.05rem" },
               lineHeight: 1.7,
-              maxWidth: 700,
+              maxWidth: 680,
               mx: "auto",
-              mb: 5,
+              mb: 4.5,
             }}
           >
-            Cada diseño, cada detalle y cada esfuerzo son una muestra de que la
-            capacitación constante nos permite seguir creciendo, aprendiendo y
-            llevando nuestro talento cada vez más lejos.
+            Cada diseño demuestra que la capacitación constante nos permite
+            seguir rompiendo límites y llevando nuestro arte del mundo de las
+            uñas cada vez más lejos.
           </Typography>
         </motion.div>
 
-        {/* Botón */}
+        {/* Botón Call To Action */}
         <motion.div
-          initial={{
-            opacity: 0,
-            scale: 0.8,
-          }}
-          animate={{
-            opacity: 1,
-            scale: 1,
-          }}
-          transition={{
-            delay: 1.1,
-            duration: 0.6,
-          }}
-          whileHover={{
-            scale: 1.05,
-          }}
-          whileTap={{
-            scale: 0.97,
-          }}
+          variants={itemVariants}
+          whileHover={{ scale: 1.04 }}
+          whileTap={{ scale: 0.97 }}
         >
           <Button
             onClick={siguienteLugar}
             variant='contained'
             size='large'
+            disableElevation
             sx={{
-              px: 6,
-              py: 1.8,
-              borderRadius: 50,
-              background: "linear-gradient(135deg, #E5127E 0%, #C40067 100%)",
-              fontSize: "1rem",
+              px: { xs: 4.5, sm: 6 },
+              py: { xs: 1.6, sm: 1.8 },
+              borderRadius: "50px",
+              background: "linear-gradient(135deg, #E5127E 0%, #B30A5F 100%)",
+              fontSize: { xs: "0.95rem", sm: "1.05rem" },
               fontWeight: 800,
-              letterSpacing: 1,
-              boxShadow: "0 10px 30px rgba(229,18,126,0.30)",
+              letterSpacing: 1.2,
+              textTransform: "uppercase",
+              boxShadow: "0 10px 28px rgba(229, 18, 126, 0.35)",
+              transition: "all 0.3s cubic-bezier(0.22, 1, 0.36, 1)",
               "&:hover": {
-                background: "linear-gradient(135deg, #C40067 0%, #E5127E 100%)",
+                background: "linear-gradient(135deg, #FF1A8C 0%, #C40067 100%)",
+                boxShadow: "0 14px 36px rgba(229, 18, 126, 0.5)",
               },
             }}
           >
-            DESCUBRIR GANADORAS
+            Descubrir Ganadoras
           </Button>
         </motion.div>
+      </Box>
+
+      {/* Carrusel de Galería en la parte inferior */}
+      <Box sx={{ mt: { xs: 5, sm: 7 } }}>
+        <CarouselGaleria imagenes={imagenes} />
       </Box>
     </motion.div>
   );

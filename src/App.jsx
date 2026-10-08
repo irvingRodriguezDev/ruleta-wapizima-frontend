@@ -1,21 +1,62 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import confetti from "canvas-confetti";
-import {
-  Button,
-  Typography,
-  Box,
-  Paper,
-  Container,
-  Stack,
-} from "@mui/material";
-
+import { Box, Container } from "@mui/material";
 import LogoWapi from "./assets/Logo_Wapizima.webp";
 import "./App.css";
 import Header from "./components/Header";
 import Portada from "./components/Portada";
 import LugarCard from "./components/LugarCard";
 import Final from "./components/Final";
+import FirstPlace from "./components/FirstPlace";
+
+import foto1 from "./assets/sorteo/1.jpeg";
+import foto2 from "./assets/sorteo/2.jpeg";
+import foto3 from "./assets/sorteo/3.jpeg";
+import foto4 from "./assets/sorteo/4.jpeg";
+import foto5 from "./assets/sorteo/5.jpeg";
+import foto6 from "./assets/sorteo/6.jpeg";
+import foto7 from "./assets/sorteo/7.jpeg";
+import foto8 from "./assets/sorteo/8.jpeg";
+import foto9 from "./assets/sorteo/9.jpeg";
+import foto10 from "./assets/sorteo/10.jpeg";
+import foto11 from "./assets/sorteo/11.jpeg";
+import foto12 from "./assets/sorteo/12.jpeg";
+import foto13 from "./assets/sorteo/13.jpeg";
+import foto14 from "./assets/sorteo/14.jpeg";
+import foto15 from "./assets/sorteo/15.jpeg";
+import foto16 from "./assets/sorteo/16.jpeg";
+import foto17 from "./assets/sorteo/17.jpeg";
+import foto18 from "./assets/sorteo/18.jpeg";
+import foto19 from "./assets/sorteo/19.jpeg";
+import foto20 from "./assets/sorteo/20.jpeg";
+import foto21 from "./assets/sorteo/21.jpeg";
+import foto22 from "./assets/sorteo/22.jpeg";
+import foto23 from "./assets/sorteo/23.jpeg";
+import foto24 from "./assets/sorteo/24.jpeg";
+import foto25 from "./assets/sorteo/25.jpeg";
+import foto26 from "./assets/sorteo/26.jpeg";
+import foto27 from "./assets/sorteo/27.jpeg";
+import foto28 from "./assets/sorteo/28.jpeg";
+import foto29 from "./assets/sorteo/29.jpeg";
+import foto30 from "./assets/sorteo/30.jpeg";
+import foto31 from "./assets/sorteo/31.jpeg";
+import foto32 from "./assets/sorteo/32.jpeg";
+import foto33 from "./assets/sorteo/33.jpeg";
+import foto34 from "./assets/sorteo/34.jpeg";
+import foto35 from "./assets/sorteo/35.jpeg";
+import foto36 from "./assets/sorteo/36.jpeg";
+import foto37 from "./assets/sorteo/37.jpeg";
+import foto38 from "./assets/sorteo/38.jpeg";
+import foto39 from "./assets/sorteo/39.jpeg";
+import foto40 from "./assets/sorteo/40.jpeg";
+import foto41 from "./assets/sorteo/41.jpeg";
+import foto42 from "./assets/sorteo/42.jpeg";
+import foto43 from "./assets/sorteo/43.jpeg";
+import foto44 from "./assets/sorteo/44.jpeg";
+import foto45 from "./assets/sorteo/45.jpeg";
+import foto46 from "./assets/sorteo/46.jpeg";
+import { lanzarConfetti } from "./utils/LanzarConfetti";
 
 function App() {
   const [etapa, setEtapa] = useState(0);
@@ -38,46 +79,6 @@ function App() {
       premio: "$1,500.00 MXN en productos de la marca",
       imagen: LogoWapi,
     },
-  };
-
-  const lanzarConfetti = (tipo = "normal") => {
-    if (tipo === "primer") {
-      const duration = 5 * 1000;
-      const animationEnd = Date.now() + duration;
-
-      const interval = setInterval(() => {
-        const timeLeft = animationEnd - Date.now();
-
-        if (timeLeft <= 0) {
-          clearInterval(interval);
-          return;
-        }
-
-        const particleCount = 70 * (timeLeft / duration);
-
-        confetti({
-          particleCount,
-          startVelocity: 35,
-          spread: 360,
-          ticks: 60,
-          origin: {
-            x: Math.random(),
-            y: Math.random() * 0.5,
-          },
-        });
-      }, 250);
-
-      return;
-    }
-
-    confetti({
-      particleCount: 160,
-      spread: 100,
-      startVelocity: 35,
-      origin: {
-        y: 0.65,
-      },
-    });
   };
 
   const mostrarLugar = (lugar) => {
@@ -104,9 +105,59 @@ function App() {
     setEtapa(0);
   };
 
+  const imagenesSorteo = [
+    foto1,
+    foto2,
+    foto3,
+    foto4,
+    foto5,
+    foto6,
+    foto7,
+    foto8,
+    foto9,
+    foto10,
+    foto11,
+    foto12,
+    foto13,
+    foto14,
+    foto15,
+    foto16,
+    foto17,
+    foto18,
+    foto19,
+    foto20,
+    foto21,
+    foto22,
+    foto23,
+    foto24,
+    foto25,
+    foto26,
+    foto27,
+    foto28,
+    foto29,
+    foto30,
+    foto31,
+    foto32,
+    foto33,
+    foto34,
+    foto35,
+    foto36,
+    foto37,
+    foto38,
+    foto39,
+    foto40,
+    foto41,
+    foto42,
+    foto43,
+    foto44,
+    foto45,
+    foto46,
+  ];
+
   return (
     <Box
       sx={{
+        width: "100%",
         minHeight: "100vh",
         overflow: "hidden",
         position: "relative",
@@ -154,7 +205,7 @@ function App() {
       <Header />
       {/* Contenido */}
       <Container
-        maxWidth='lg'
+        maxWidth='xl'
         sx={{
           position: "relative",
           zIndex: 2,
@@ -173,7 +224,12 @@ function App() {
           {/* PORTADA */}
           {/* ======================================= */}
 
-          {etapa === 0 && <Portada siguienteLugar={siguienteLugar} />}
+          {etapa === 0 && (
+            <Portada
+              siguienteLugar={siguienteLugar}
+              imagenes={imagenesSorteo}
+            />
+          )}
 
           {/* ======================================= */}
           {/* 3ER LUGAR */}
@@ -212,249 +268,7 @@ function App() {
           {/* ======================================= */}
 
           {etapa === 3 && (
-            <motion.div
-              key='primero'
-              initial={{
-                opacity: 0,
-                scale: 0.75,
-                y: 80,
-              }}
-              animate={{
-                opacity: 1,
-                scale: 1,
-                y: 0,
-              }}
-              transition={{
-                duration: 1,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              style={{
-                width: "100%",
-              }}
-            >
-              <Box
-                sx={{
-                  maxWidth: 1000,
-                  mx: "auto",
-                  textAlign: "center",
-                  position: "relative",
-                }}
-              >
-                {/* Destellos */}
-                {[...Array(8)].map((_, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{
-                      opacity: 0,
-                      scale: 0,
-                    }}
-                    animate={{
-                      opacity: [0, 1, 0],
-                      scale: [0, 1.3, 0],
-                      x: Math.cos((index / 8) * Math.PI * 2) * 280,
-                      y: Math.sin((index / 8) * Math.PI * 2) * 280,
-                    }}
-                    transition={{
-                      duration: 2,
-                      delay: index * 0.1,
-                      repeat: Infinity,
-                      repeatDelay: 1,
-                    }}
-                    style={{
-                      position: "absolute",
-                      left: "50%",
-                      top: "45%",
-                      fontSize: 30,
-                      pointerEvents: "none",
-                    }}
-                  >
-                    ✦
-                  </motion.div>
-                ))}
-
-                <Typography
-                  sx={{
-                    color: "#E5127E",
-                    fontWeight: 800,
-                    letterSpacing: 4,
-                    textTransform: "uppercase",
-                    fontSize: {
-                      xs: "0.8rem",
-                      sm: "1rem",
-                    },
-                    mb: 1,
-                  }}
-                >
-                  Y la gran ganadora es...
-                </Typography>
-
-                <Typography
-                  sx={{
-                    fontSize: {
-                      xs: "3.5rem",
-                      sm: "5rem",
-                      md: "6.5rem",
-                    },
-                    lineHeight: 0.95,
-                    fontWeight: 900,
-                    color: "#E5127E",
-                    textShadow: "0 8px 30px rgba(229,18,126,0.25)",
-                    mb: 2,
-                  }}
-                >
-                  1.er
-                </Typography>
-
-                <Typography
-                  sx={{
-                    fontSize: {
-                      xs: "2rem",
-                      sm: "3rem",
-                      md: "4rem",
-                    },
-                    fontWeight: 900,
-                    color: "#2E2E2E",
-                    mb: 4,
-                  }}
-                >
-                  Lugar
-                </Typography>
-
-                {/* Imagen */}
-                <motion.div
-                  initial={{
-                    opacity: 0,
-                    scale: 0.6,
-                    rotate: -5,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    scale: 1,
-                    rotate: 0,
-                  }}
-                  transition={{
-                    delay: 0.5,
-                    duration: 0.9,
-                    type: "spring",
-                  }}
-                >
-                  <Paper
-                    elevation={0}
-                    sx={{
-                      maxWidth: 600,
-                      mx: "auto",
-                      p: 1,
-                      borderRadius: 5,
-                      background:
-                        "linear-gradient(135deg, #E5127E, #FFD700, #E5127E)",
-                      boxShadow: "0 20px 60px rgba(229,18,126,0.30)",
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        background: "#FFF",
-                        borderRadius: 4,
-                        overflow: "hidden",
-                        p: {
-                          xs: 2,
-                          sm: 3,
-                        },
-                      }}
-                    >
-                      <Box
-                        component='img'
-                        src={ganadoras.primerLugar.imagen}
-                        alt={ganadoras.primerLugar.nombre}
-                        sx={{
-                          width: "100%",
-                          maxHeight: 420,
-                          objectFit: "contain",
-                          display: "block",
-                        }}
-                      />
-                    </Box>
-                  </Paper>
-                </motion.div>
-
-                {/* Nombre */}
-                <motion.div
-                  initial={{
-                    opacity: 0,
-                    y: 30,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    y: 0,
-                  }}
-                  transition={{
-                    delay: 0.9,
-                    duration: 0.7,
-                  }}
-                >
-                  <Typography
-                    sx={{
-                      mt: 4,
-                      fontSize: {
-                        xs: "1.7rem",
-                        sm: "2.4rem",
-                        md: "3rem",
-                      },
-                      fontWeight: 900,
-                      color: "#2E2E2E",
-                    }}
-                  >
-                    {ganadoras.primerLugar.nombre}
-                  </Typography>
-
-                  <Typography
-                    sx={{
-                      mt: 1,
-                      fontSize: {
-                        xs: "1rem",
-                        sm: "1.2rem",
-                      },
-                      color: "#E5127E",
-                      fontWeight: 700,
-                    }}
-                  >
-                    {ganadoras.primerLugar.premio}
-                  </Typography>
-                </motion.div>
-
-                {/* Botón */}
-                <motion.div
-                  initial={{
-                    opacity: 0,
-                    y: 20,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    y: 0,
-                  }}
-                  transition={{
-                    delay: 1.3,
-                  }}
-                >
-                  <Button
-                    onClick={siguienteLugar}
-                    variant='contained'
-                    sx={{
-                      mt: 4,
-                      px: 5,
-                      py: 1.5,
-                      borderRadius: 50,
-                      background: "#2E2E2E",
-                      fontWeight: 700,
-                      "&:hover": {
-                        background: "#111",
-                      },
-                    }}
-                  >
-                    VER MENSAJE FINAL
-                  </Button>
-                </motion.div>
-              </Box>
-            </motion.div>
+            <FirstPlace ganadoras={ganadoras} siguienteLugar={siguienteLugar} />
           )}
 
           {/* ======================================= */}

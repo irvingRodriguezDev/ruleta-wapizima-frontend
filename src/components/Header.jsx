@@ -1,6 +1,7 @@
 import { Box, Stack } from "@mui/material";
 import LogoWapi from "../assets/Logo_Wapizima.webp";
 import LogoFloreciendo from "../assets/logo_floreciendo.webp";
+import LogoFiestas from "../assets/fiesta_mexicana_limpia.png";
 const Header = () => {
   return (
     <Box
@@ -17,10 +18,10 @@ const Header = () => {
       <Stack
         direction='row'
         spacing={3}
-        justifyContent='center'
-        alignItems='center'
         sx={{
           px: 2,
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
         <Box
@@ -53,6 +54,27 @@ const Header = () => {
             height: {
               xs: 38,
               sm: 48,
+            },
+            width: "auto",
+            objectFit: "contain",
+          }}
+        />
+        <Box
+          sx={{
+            width: "1px",
+            height: 45,
+            background: "rgba(255,255,255,0.45)",
+          }}
+        />
+
+        <Box
+          component='img'
+          src={LogoFiestas}
+          alt='Fiestas'
+          sx={{
+            height: {
+              xs: 38,
+              sm: 68,
             },
             width: "auto",
             objectFit: "contain",
