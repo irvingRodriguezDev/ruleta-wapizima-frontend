@@ -1,162 +1,471 @@
 import { useState } from "react";
-import "./App.css";
-import RuletaCanvas from "./components/RuletaCanvas";
-import { Button, Grid, Typography, Box, Paper, Modal } from "@mui/material";
-import logopink from "./assets/logo_pink_power_blanco.png";
+import { motion, AnimatePresence } from "framer-motion";
+import confetti from "canvas-confetti";
+import {
+  Button,
+  Typography,
+  Box,
+  Paper,
+  Container,
+  Stack,
+} from "@mui/material";
+
 import LogoWapi from "./assets/Logo_Wapizima.webp";
+import "./App.css";
+import Header from "./components/Header";
+import Portada from "./components/Portada";
+import LugarCard from "./components/LugarCard";
+import Final from "./components/Final";
+
 function App() {
-  // Lista inicial de 20 participantes
-  const [participantes, setParticipantes] = useState([
-    { id: 1, nombre: "Daniel" },
-    { id: 2, nombre: "Berenice" },
-    { id: 3, nombre: "Tomás" },
-    { id: 4, nombre: "José" },
-    { id: 5, nombre: "María" },
-    { id: 6, nombre: "Carlos" },
-    { id: 7, nombre: "Ana" },
-    { id: 8, nombre: "Luis" },
-    { id: 9, nombre: "Sofia" },
-    { id: 10, nombre: "Miguel" },
-    { id: 11, nombre: "Laura" },
-    { id: 12, nombre: "Javier" },
-    { id: 13, nombre: "Carmen" },
-    { id: 14, nombre: "Diego" },
-    { id: 15, nombre: "Elena" },
-    { id: 16, nombre: "Fernando" },
-    { id: 17, nombre: "Patricia" },
-    { id: 18, nombre: "Roberto" },
-    { id: 19, nombre: "Gloria" },
-    { id: 20, nombre: "Alejandro" },
-  ]);
+  const [etapa, setEtapa] = useState(0);
 
-  // Lista inicial de 5 premios
-  const [premios, setPremios] = useState([
-    { id: 1, cantidad: 1, nombre: "Kit Acrílico" },
-    { id: 2, cantidad: 1, nombre: "Gama de Gel" },
-    { id: 3, cantidad: 1, nombre: "Lámpara UV" },
-    { id: 4, cantidad: 1, nombre: "Pincel Kolinsky" },
-    { id: 5, cantidad: 1, nombre: "Suscripción FP" },
-  ]);
+  const ganadoras = {
+    tercerLugar: {
+      nombre: "Jimena Sanchez Lopez",
+      premio: "$800.00 MXN en productos de la marca",
+      imagen: LogoWapi,
+    },
 
-  const [ganadorActual, setGanadorActual] = useState(null);
-  const [modalGanadorOpen, setModalGanadorOpen] = useState(false);
+    segundoLugar: {
+      nombre: "Maria del Carmen Sanchez",
+      premio: "$1,000.00 MXN en productos de la marca",
+      imagen: LogoWapi,
+    },
 
-  const [openParticipante, setOpenParticipante] = useState(false);
-  const [openPremio, setOpenPremio] = useState(false);
+    primerLugar: {
+      nombre: "Fernanda Sosa Aguilar",
+      premio: "$1,500.00 MXN en productos de la marca",
+      imagen: LogoWapi,
+    },
+  };
 
-  // Recibe la selección generada al terminar de girar la flor
-  const handleGanadorSeleccionado = (participanteGanador, premioGanador) => {
-    setGanadorActual({
-      participante: participanteGanador,
-      premio: premioGanador,
+  const lanzarConfetti = (tipo = "normal") => {
+    if (tipo === "primer") {
+      const duration = 5 * 1000;
+      const animationEnd = Date.now() + duration;
+
+      const interval = setInterval(() => {
+        const timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+          clearInterval(interval);
+          return;
+        }
+
+        const particleCount = 70 * (timeLeft / duration);
+
+        confetti({
+          particleCount,
+          startVelocity: 35,
+          spread: 360,
+          ticks: 60,
+          origin: {
+            x: Math.random(),
+            y: Math.random() * 0.5,
+          },
+        });
+      }, 250);
+
+      return;
+    }
+
+    confetti({
+      particleCount: 160,
+      spread: 100,
+      startVelocity: 35,
+      origin: {
+        y: 0.65,
+      },
     });
-    setModalGanadorOpen(true);
+  };
 
-    // 1. Descontar 1 al stock del premio entregado
-    setPremios((prevPremios) =>
-      prevPremios.map((p) =>
-        p.nombre === premioGanador.nombre
-          ? { ...p, cantidad: p.cantidad - 1 }
-          : p,
-      ),
-    );
+  const mostrarLugar = (lugar) => {
+    setEtapa(lugar);
 
-    // 2. Remover al participante para que no vuelva a ganar en la siguiente tirada
-    setParticipantes((prevParticipantes) =>
-      prevParticipantes.filter((p) => p.nombre !== participanteGanador.nombre),
-    );
+    setTimeout(() => {
+      lanzarConfetti(lugar === 3 ? "primer" : "normal");
+    }, 500);
+  };
+
+  const siguienteLugar = () => {
+    if (etapa === 0) {
+      mostrarLugar(1);
+    } else if (etapa === 1) {
+      mostrarLugar(2);
+    } else if (etapa === 2) {
+      mostrarLugar(3);
+    } else {
+      setEtapa(4);
+    }
+  };
+
+  const volverInicio = () => {
+    setEtapa(0);
   };
 
   return (
-    <Box sx={{ bgcolor: "transparent", minHeight: "100vh" }}>
-      <Grid container spacing={2}>
-        {/* Banner Sorteo */}
-        <Grid size={12}>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              bgcolor: "#E5127E",
-              py: 2,
-            }}
-          >
-            <img
-              src={LogoWapi}
-              alt='Pink Power'
-              style={{ width: "auto", height: "80px" }}
-            />
-          </Box>
-        </Grid>
-        <Grid size={12} sx={{ mt: -4 }}>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              bgcolor: "#E5127E",
-              py: 2,
-            }}
-          >
-            <img
-              src={logopink}
-              alt='Pink Power'
-              style={{ width: "20%", height: "50px" }}
-            />
-          </Box>
-        </Grid>
-
-        {/* Ruleta / Flor Canvas */}
-        <Grid
-          size={12}
-          sx={{ display: "flex", justifyContent: "center", mt: -10 }}
-        >
-          <RuletaCanvas
-            premios={premios}
-            participantes={participantes}
-            onGanadorSeleccionado={handleGanadorSeleccionado}
-          />
-        </Grid>
-      </Grid>
-
-      {/* Modal / Pop-up de Ganador */}
-      <Modal open={modalGanadorOpen} onClose={() => setModalGanadorOpen(false)}>
-        <Paper
+    <Box
+      sx={{
+        minHeight: "100vh",
+        overflow: "hidden",
+        position: "relative",
+        background:
+          "radial-gradient(circle at top, #fff5fa 0%, #fce3ed 40%, #f8c5d9 100%)",
+      }}
+    >
+      {/* Decoración de fondo */}
+      <Box
+        sx={{
+          position: "fixed",
+          inset: 0,
+          pointerEvents: "none",
+          overflow: "hidden",
+        }}
+      >
+        <Box
           sx={{
             position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            p: 4,
-            borderRadius: 3,
-            textAlign: "center",
-            maxWidth: 400,
-            width: "90%",
-            bgcolor: "#FFF",
-            border: "3px solid #E5127E",
+            width: 500,
+            height: 500,
+            borderRadius: "50%",
+            background: "rgba(229, 18, 126, 0.08)",
+            filter: "blur(80px)",
+            top: -200,
+            left: -200,
           }}
-        >
-          <Typography
-            variant='h4'
-            sx={{ color: "#E5127E", fontWeight: "bold", mb: 2 }}
-          >
-            ¡Felicidades! 🎉
-          </Typography>
-          <Typography variant='h6' sx={{ color: "#333", mb: 1 }}>
-            <b>{ganadorActual?.participante?.nombre}</b>
-          </Typography>
-          <Typography variant='body1' sx={{ color: "#666", mb: 3 }}>
-            Ha ganado: <b>{ganadorActual?.premio?.nombre}</b>
-          </Typography>
-          <Button
-            variant='contained'
-            onClick={() => setModalGanadorOpen(false)}
-            sx={{ bgcolor: "#E5127E", fontWeight: "bold" }}
-          >
-            Continuar
-          </Button>
-        </Paper>
-      </Modal>
+        />
+
+        <Box
+          sx={{
+            position: "absolute",
+            width: 450,
+            height: 450,
+            borderRadius: "50%",
+            background: "rgba(255, 255, 255, 0.7)",
+            filter: "blur(80px)",
+            bottom: -200,
+            right: -150,
+          }}
+        />
+      </Box>
+
+      {/* Header */}
+      <Header />
+      {/* Contenido */}
+      <Container
+        maxWidth='lg'
+        sx={{
+          position: "relative",
+          zIndex: 2,
+          minHeight: "calc(100vh - 92px)",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          py: {
+            xs: 5,
+            md: 7,
+          },
+        }}
+      >
+        <AnimatePresence mode='wait'>
+          {/* ======================================= */}
+          {/* PORTADA */}
+          {/* ======================================= */}
+
+          {etapa === 0 && <Portada siguienteLugar={siguienteLugar} />}
+
+          {/* ======================================= */}
+          {/* 3ER LUGAR */}
+          {/* ======================================= */}
+
+          {etapa === 1 && (
+            <LugarCard
+              key='tercer'
+              lugar='3.º'
+              titulo='Tercer Lugar'
+              ganadora={ganadoras.tercerLugar}
+              siguiente={siguienteLugar}
+              color='#B87333'
+              textoBoton='CONOCER 2.º LUGAR'
+            />
+          )}
+
+          {/* ======================================= */}
+          {/* 2DO LUGAR */}
+          {/* ======================================= */}
+
+          {etapa === 2 && (
+            <LugarCard
+              key='segundo'
+              lugar='2.º'
+              titulo='Segundo Lugar'
+              ganadora={ganadoras.segundoLugar}
+              siguiente={siguienteLugar}
+              color='#8C8C8C'
+              textoBoton='CONOCER 1.er LUGAR'
+            />
+          )}
+
+          {/* ======================================= */}
+          {/* 1ER LUGAR */}
+          {/* ======================================= */}
+
+          {etapa === 3 && (
+            <motion.div
+              key='primero'
+              initial={{
+                opacity: 0,
+                scale: 0.75,
+                y: 80,
+              }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+                y: 0,
+              }}
+              transition={{
+                duration: 1,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+              style={{
+                width: "100%",
+              }}
+            >
+              <Box
+                sx={{
+                  maxWidth: 1000,
+                  mx: "auto",
+                  textAlign: "center",
+                  position: "relative",
+                }}
+              >
+                {/* Destellos */}
+                {[...Array(8)].map((_, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{
+                      opacity: 0,
+                      scale: 0,
+                    }}
+                    animate={{
+                      opacity: [0, 1, 0],
+                      scale: [0, 1.3, 0],
+                      x: Math.cos((index / 8) * Math.PI * 2) * 280,
+                      y: Math.sin((index / 8) * Math.PI * 2) * 280,
+                    }}
+                    transition={{
+                      duration: 2,
+                      delay: index * 0.1,
+                      repeat: Infinity,
+                      repeatDelay: 1,
+                    }}
+                    style={{
+                      position: "absolute",
+                      left: "50%",
+                      top: "45%",
+                      fontSize: 30,
+                      pointerEvents: "none",
+                    }}
+                  >
+                    ✦
+                  </motion.div>
+                ))}
+
+                <Typography
+                  sx={{
+                    color: "#E5127E",
+                    fontWeight: 800,
+                    letterSpacing: 4,
+                    textTransform: "uppercase",
+                    fontSize: {
+                      xs: "0.8rem",
+                      sm: "1rem",
+                    },
+                    mb: 1,
+                  }}
+                >
+                  Y la gran ganadora es...
+                </Typography>
+
+                <Typography
+                  sx={{
+                    fontSize: {
+                      xs: "3.5rem",
+                      sm: "5rem",
+                      md: "6.5rem",
+                    },
+                    lineHeight: 0.95,
+                    fontWeight: 900,
+                    color: "#E5127E",
+                    textShadow: "0 8px 30px rgba(229,18,126,0.25)",
+                    mb: 2,
+                  }}
+                >
+                  1.er
+                </Typography>
+
+                <Typography
+                  sx={{
+                    fontSize: {
+                      xs: "2rem",
+                      sm: "3rem",
+                      md: "4rem",
+                    },
+                    fontWeight: 900,
+                    color: "#2E2E2E",
+                    mb: 4,
+                  }}
+                >
+                  Lugar
+                </Typography>
+
+                {/* Imagen */}
+                <motion.div
+                  initial={{
+                    opacity: 0,
+                    scale: 0.6,
+                    rotate: -5,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    scale: 1,
+                    rotate: 0,
+                  }}
+                  transition={{
+                    delay: 0.5,
+                    duration: 0.9,
+                    type: "spring",
+                  }}
+                >
+                  <Paper
+                    elevation={0}
+                    sx={{
+                      maxWidth: 600,
+                      mx: "auto",
+                      p: 1,
+                      borderRadius: 5,
+                      background:
+                        "linear-gradient(135deg, #E5127E, #FFD700, #E5127E)",
+                      boxShadow: "0 20px 60px rgba(229,18,126,0.30)",
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        background: "#FFF",
+                        borderRadius: 4,
+                        overflow: "hidden",
+                        p: {
+                          xs: 2,
+                          sm: 3,
+                        },
+                      }}
+                    >
+                      <Box
+                        component='img'
+                        src={ganadoras.primerLugar.imagen}
+                        alt={ganadoras.primerLugar.nombre}
+                        sx={{
+                          width: "100%",
+                          maxHeight: 420,
+                          objectFit: "contain",
+                          display: "block",
+                        }}
+                      />
+                    </Box>
+                  </Paper>
+                </motion.div>
+
+                {/* Nombre */}
+                <motion.div
+                  initial={{
+                    opacity: 0,
+                    y: 30,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                  }}
+                  transition={{
+                    delay: 0.9,
+                    duration: 0.7,
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      mt: 4,
+                      fontSize: {
+                        xs: "1.7rem",
+                        sm: "2.4rem",
+                        md: "3rem",
+                      },
+                      fontWeight: 900,
+                      color: "#2E2E2E",
+                    }}
+                  >
+                    {ganadoras.primerLugar.nombre}
+                  </Typography>
+
+                  <Typography
+                    sx={{
+                      mt: 1,
+                      fontSize: {
+                        xs: "1rem",
+                        sm: "1.2rem",
+                      },
+                      color: "#E5127E",
+                      fontWeight: 700,
+                    }}
+                  >
+                    {ganadoras.primerLugar.premio}
+                  </Typography>
+                </motion.div>
+
+                {/* Botón */}
+                <motion.div
+                  initial={{
+                    opacity: 0,
+                    y: 20,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                  }}
+                  transition={{
+                    delay: 1.3,
+                  }}
+                >
+                  <Button
+                    onClick={siguienteLugar}
+                    variant='contained'
+                    sx={{
+                      mt: 4,
+                      px: 5,
+                      py: 1.5,
+                      borderRadius: 50,
+                      background: "#2E2E2E",
+                      fontWeight: 700,
+                      "&:hover": {
+                        background: "#111",
+                      },
+                    }}
+                  >
+                    VER MENSAJE FINAL
+                  </Button>
+                </motion.div>
+              </Box>
+            </motion.div>
+          )}
+
+          {/* ======================================= */}
+          {/* FINAL */}
+          {/* ======================================= */}
+
+          {etapa === 4 && (
+            <Final volverInicio={volverInicio} ganadoras={ganadoras} />
+          )}
+        </AnimatePresence>
+      </Container>
     </Box>
   );
 }
