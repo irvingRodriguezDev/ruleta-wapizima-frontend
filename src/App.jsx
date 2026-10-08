@@ -57,6 +57,7 @@ import foto44 from "./assets/sorteo/44.jpeg";
 import foto45 from "./assets/sorteo/45.jpeg";
 import foto46 from "./assets/sorteo/46.jpeg";
 import CountdownScreen from "./components/CountdownScreen";
+import { lanzarConfetti } from "./utils/LanzarConfetti";
 
 function App() {
   const [etapa, setEtapa] = useState(0);
