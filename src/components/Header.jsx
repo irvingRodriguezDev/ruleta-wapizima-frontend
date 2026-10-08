@@ -31,7 +31,7 @@ const Header = () => {
           sx={{
             height: {
               xs: 48,
-              sm: 60,
+              sm: 68,
             },
             width: "auto",
             objectFit: "contain",
@@ -53,7 +53,7 @@ const Header = () => {
           sx={{
             height: {
               xs: 38,
-              sm: 48,
+              sm: 68,
             },
             width: "auto",
             objectFit: "contain",

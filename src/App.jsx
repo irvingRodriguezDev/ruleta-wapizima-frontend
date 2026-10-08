@@ -56,10 +56,12 @@ import foto43 from "./assets/sorteo/43.jpeg";
 import foto44 from "./assets/sorteo/44.jpeg";
 import foto45 from "./assets/sorteo/45.jpeg";
 import foto46 from "./assets/sorteo/46.jpeg";
-import { lanzarConfetti } from "./utils/LanzarConfetti";
+import CountdownScreen from "./components/CountdownScreen";
 
 function App() {
   const [etapa, setEtapa] = useState(0);
+  const [enConteo, setEnConteo] = useState(false);
+  const [siguienteEtapaDestino, setSiguienteEtapaDestino] = useState(null);
 
   const ganadoras = {
     tercerLugar: {
@@ -80,7 +82,21 @@ function App() {
       imagen: LogoWapi,
     },
   };
+  const iniciarTransicionConteo = (destino) => {
+    setSiguienteEtapaDestino(destino);
+    setEnConteo(true);
+  };
 
+  const finalizarConteo = () => {
+    const destino = siguienteEtapaDestino;
+    setEnConteo(false);
+    setEtapa(destino);
+
+    // Disparar confetti justo al terminar el contador
+    setTimeout(() => {
+      lanzarConfetti(destino === 3 ? "primer" : "normal");
+    }, 200);
+  };
   const mostrarLugar = (lugar) => {
     setEtapa(lugar);
 
@@ -91,17 +107,18 @@ function App() {
 
   const siguienteLugar = () => {
     if (etapa === 0) {
-      mostrarLugar(1);
+      iniciarTransicionConteo(1);
     } else if (etapa === 1) {
-      mostrarLugar(2);
+      iniciarTransicionConteo(2);
     } else if (etapa === 2) {
-      mostrarLugar(3);
+      iniciarTransicionConteo(3);
     } else {
-      setEtapa(4);
+      setEtapa(4); // El final pasa directo sin conteo
     }
   };
 
   const volverInicio = () => {
+    setEnConteo(false);
     setEtapa(0);
   };
 
@@ -223,60 +240,61 @@ function App() {
           {/* ======================================= */}
           {/* PORTADA */}
           {/* ======================================= */}
-
-          {etapa === 0 && (
-            <Portada
-              siguienteLugar={siguienteLugar}
-              imagenes={imagenesSorteo}
+          {enConteo ? (
+            <CountdownScreen
+              key='countdown'
+              lugarDestino={siguienteEtapaDestino}
+              onFinish={finalizarConteo}
             />
-          )}
+          ) : (
+            <>
+              {/* PORTADA */}
+              {etapa === 0 && (
+                <Portada
+                  siguienteLugar={siguienteLugar}
+                  imagenes={imagenesSorteo}
+                />
+              )}
 
-          {/* ======================================= */}
-          {/* 3ER LUGAR */}
-          {/* ======================================= */}
+              {/* 3ER LUGAR */}
+              {etapa === 1 && (
+                <LugarCard
+                  key='tercer'
+                  lugar='3.º'
+                  titulo='Tercer Lugar'
+                  ganadora={ganadoras.tercerLugar}
+                  siguiente={siguienteLugar}
+                  color='#B87333'
+                  textoBoton='CONOCER 2.º LUGAR'
+                />
+              )}
 
-          {etapa === 1 && (
-            <LugarCard
-              key='tercer'
-              lugar='3.º'
-              titulo='Tercer Lugar'
-              ganadora={ganadoras.tercerLugar}
-              siguiente={siguienteLugar}
-              color='#B87333'
-              textoBoton='CONOCER 2.º LUGAR'
-            />
-          )}
+              {/* 2DO LUGAR */}
+              {etapa === 2 && (
+                <LugarCard
+                  key='segundo'
+                  lugar='2.º'
+                  titulo='Segundo Lugar'
+                  ganadora={ganadoras.segundoLugar}
+                  siguiente={siguienteLugar}
+                  color='#8C8C8C'
+                  textoBoton='CONOCER 1.ER LUGAR'
+                />
+              )}
 
-          {/* ======================================= */}
-          {/* 2DO LUGAR */}
-          {/* ======================================= */}
+              {/* 1ER LUGAR */}
+              {etapa === 3 && (
+                <FirstPlace
+                  ganadoras={ganadoras}
+                  siguienteLugar={siguienteLugar}
+                />
+              )}
 
-          {etapa === 2 && (
-            <LugarCard
-              key='segundo'
-              lugar='2.º'
-              titulo='Segundo Lugar'
-              ganadora={ganadoras.segundoLugar}
-              siguiente={siguienteLugar}
-              color='#8C8C8C'
-              textoBoton='CONOCER 1.er LUGAR'
-            />
-          )}
-
-          {/* ======================================= */}
-          {/* 1ER LUGAR */}
-          {/* ======================================= */}
-
-          {etapa === 3 && (
-            <FirstPlace ganadoras={ganadoras} siguienteLugar={siguienteLugar} />
-          )}
-
-          {/* ======================================= */}
-          {/* FINAL */}
-          {/* ======================================= */}
-
-          {etapa === 4 && (
-            <Final volverInicio={volverInicio} ganadoras={ganadoras} />
+              {/* FINAL */}
+              {etapa === 4 && (
+                <Final volverInicio={volverInicio} ganadoras={ganadoras} />
+              )}
+            </>
           )}
         </AnimatePresence>
       </Container>
