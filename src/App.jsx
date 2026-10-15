@@ -8,34 +8,23 @@ import LogoWapi from "./assets/Logo_Wapizima.webp";
 import pkg from "react-fast-marquee";
 
 const PARTICIPANTES_INICIALES = [
-  { id: 1, nombre: "Daniel" },
-  { id: 2, nombre: "Berenice" },
-  { id: 3, nombre: "Tomás" },
-  { id: 4, nombre: "José" },
-  { id: 5, nombre: "María" },
-  { id: 6, nombre: "Carlos" },
-  { id: 7, nombre: "Ana" },
-  { id: 8, nombre: "Luis" },
-  { id: 9, nombre: "Sofia" },
-  { id: 10, nombre: "Miguel" },
-  { id: 11, nombre: "Laura" },
-  { id: 12, nombre: "Javier" },
-  { id: 13, nombre: "Carmen" },
-  { id: 14, nombre: "Diego" },
-  { id: 15, nombre: "Elena" },
-  { id: 16, nombre: "Fernando" },
-  { id: 17, nombre: "Patricia" },
-  { id: 18, nombre: "Roberto" },
-  { id: 19, nombre: "Gloria" },
-  { id: 20, nombre: "Alejandro" },
+  { id: 1, nombre: "Erika Elizabeth Cardozo" },
+  { id: 2, nombre: "Roxana Sulem" },
+  { id: 3, nombre: "Anel Sarahi" },
+  { id: 4, nombre: "Yessica" },
+  { id: 5, nombre: "Alma Delia" },
+  { id: 6, nombre: "Diana Carolina" },
+  { id: 7, nombre: "Brenda Alejandra Romero" },
+  { id: 8, nombre: "Karina Adriana Guerrero" },
+  { id: 9, nombre: "Miguel Angel Rodriguez" },
+  { id: 10, nombre: "Jorge Borgues" },
+  { id: 11, nombre: "Gerardo Garcia" },
+  { id: 12, nombre: "Yhel Beuty" },
 ];
 
 const PREMIOS_INICIALES = [
-  { id: 1, cantidad: 1, nombre: "Mesa de Trabajo" },
-  { id: 2, cantidad: 1, nombre: "Silla Ergonómica" },
-  { id: 3, cantidad: 1, nombre: "Sillón Pedicure" },
-  { id: 4, cantidad: 1, nombre: "Mueble Auxiliar" },
-  { id: 5, cantidad: 1, nombre: "Espejo LED" },
+  { id: 1, cantidad: 1, nombre: "Exhibidor Pink Power" },
+  { id: 2, cantidad: 1, nombre: "Exhibidor Pink Power" },
 ];
 
 function App() {
