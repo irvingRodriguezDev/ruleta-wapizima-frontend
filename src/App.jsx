@@ -58,7 +58,9 @@ import foto45 from "./assets/sorteo/45.jpeg";
 import foto46 from "./assets/sorteo/46.jpeg";
 import CountdownScreen from "./components/CountdownScreen";
 import { lanzarConfetti } from "./utils/LanzarConfetti";
-
+import primerLugar from "./assets/primer_lugar_final.jpeg";
+import segundoLugar from "./assets/lugar_2_final.jpeg";
+import tercerLugar from "./assets/3er_lugar.webp";
 function App() {
   const [etapa, setEtapa] = useState(0);
   const [enConteo, setEnConteo] = useState(false);
@@ -66,21 +68,21 @@ function App() {
 
   const ganadoras = {
     tercerLugar: {
-      nombre: "Jimena Sanchez Lopez",
-      premio: "$800.00 MXN en productos de la marca",
-      imagen: LogoWapi,
+      nombre: "A. Michel P. Malpica ",
+      premio: "$700.00 MXN en productos de la marca",
+      imagen: tercerLugar,
     },
 
     segundoLugar: {
-      nombre: "Maria del Carmen Sanchez",
+      nombre: "Maricarmen Chan - Amahirany Nathaly Garcia Gloria",
       premio: "$1,000.00 MXN en productos de la marca",
-      imagen: LogoWapi,
+      imagen: segundoLugar,
     },
 
     primerLugar: {
-      nombre: "Fernanda Sosa Aguilar",
+      nombre: "Monserrat Flores Ramirez - Mila correa",
       premio: "$1,500.00 MXN en productos de la marca",
-      imagen: LogoWapi,
+      imagen: primerLugar,
     },
   };
   const iniciarTransicionConteo = (destino) => {

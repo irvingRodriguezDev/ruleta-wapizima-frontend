@@ -158,7 +158,7 @@ const FirstPlace = ({ siguienteLugar, ganadoras }) => {
             >
               <Chip
                 icon={<WorkspacePremiumIcon style={{ color: "#FFD700" }} />}
-                label='CAMPEONA'
+                label='CAMPEONAS'
                 sx={{
                   backgroundColor: "#1A1A1A",
                   color: "#FFFFFF",
