@@ -8,23 +8,12 @@ import LogoWapi from "./assets/Logo_Wapizima.webp";
 import pkg from "react-fast-marquee";
 
 const PARTICIPANTES_INICIALES = [
-  { id: 1, nombre: "Erika Elizabeth Cardozo" },
-  { id: 2, nombre: "Roxana Sulem" },
-  { id: 3, nombre: "Anel Sarahi" },
-  { id: 4, nombre: "Yessica" },
-  { id: 5, nombre: "Alma Delia" },
-  { id: 6, nombre: "Diana Carolina" },
-  { id: 7, nombre: "Brenda Alejandra Romero" },
-  { id: 8, nombre: "Karina Adriana Guerrero" },
-  { id: 9, nombre: "Miguel Angel Rodriguez" },
-  { id: 10, nombre: "Jorge Borgues" },
-  { id: 11, nombre: "Gerardo Garcia" },
-  { id: 12, nombre: "Yhel Beuty" },
+  { id: 1, nombre: "Roxana Sulem" },
+  { id: 2, nombre: "Yessica" },
 ];
 
 const PREMIOS_INICIALES = [
-  { id: 1, cantidad: 1, nombre: "Exhibidor Pink Power" },
-  { id: 2, cantidad: 1, nombre: "Exhibidor Pink Power" },
+  { id: 1, cantidad: 2, nombre: "Exhibidor Pink Power" },
 ];
 
 function App() {
