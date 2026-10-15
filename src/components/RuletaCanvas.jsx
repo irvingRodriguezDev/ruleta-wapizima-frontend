@@ -1,10 +1,9 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Box, Button, Paper, Alert, Typography } from "@mui/material";
-import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
-import confetti from "canvas-confetti";
 import CelebracionEfecto from "./CelebracionEfecto";
 import IconPower from "../assets/icon_pink_rosa.png";
 import HastagW from "../assets/soy_wapizima.png";
+
 export default function RuletaCanvas({
   premios,
   participantes,
@@ -31,7 +30,7 @@ export default function RuletaCanvas({
       -anchoBase * 1.2,
       -radio * 0.85,
       0,
-      -radio * factorPunta,
+      -radio * factorPunta
     );
 
     // Lado derecho reflejado
@@ -41,7 +40,7 @@ export default function RuletaCanvas({
       anchoBase * 1.8,
       -radio * 0.4,
       anchoBase / 2,
-      0,
+      0
     );
 
     ctx.closePath();
@@ -54,11 +53,25 @@ export default function RuletaCanvas({
     const total = premios.length;
     if (total === 0) return;
 
-    const centro = canvas.width / 2;
-    const radioPetalo = centro - 45;
+    // Soporte para pantallas de alta densidad (Retina / 4K)
+    const dpr = window.devicePixelRatio || 1;
+    const baseSize = 550;
+
+    if (canvas.width !== baseSize * dpr) {
+      canvas.width = baseSize * dpr;
+      canvas.height = baseSize * dpr;
+      canvas.style.width = `${baseSize}px`;
+      canvas.style.height = `${baseSize}px`;
+    }
+
+    ctx.save();
+    ctx.scale(dpr, dpr);
+
+    const centro = baseSize / 2;
+    const radioPetalo = centro - 50;
     const anguloPorPetalo = (2 * Math.PI) / total;
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, baseSize, baseSize);
 
     ctx.save();
     ctx.translate(centro, centro);
@@ -84,6 +97,7 @@ export default function RuletaCanvas({
       if (agotado) {
         ctx.fillStyle = "#D6D6D6";
       } else {
+        // Estilo uniforme para todos los pétalos posteriores
         const gradienteFondo = ctx.createLinearGradient(0, 0, 0, -radioPetalo);
         gradienteFondo.addColorStop(0, "#E5127E");
         gradienteFondo.addColorStop(0.7, "#FF69B4");
@@ -96,7 +110,7 @@ export default function RuletaCanvas({
     });
 
     // ==========================================
-    // CAPA 2: Pétalos Principales (Premios y Nombres)
+    // CAPA 2: Pétalos Principales (Premios Homogéneos)
     // ==========================================
     premios.forEach((premio, i) => {
       ctx.save();
@@ -114,13 +128,14 @@ export default function RuletaCanvas({
       if (agotado) {
         ctx.fillStyle = "#ECECEC";
       } else {
+        // Mismo esquema de color neutro y elegante para todos los premios sin distinción
         const gradienteFrontal = ctx.createLinearGradient(
           0,
           0,
           0,
-          -radioPetalo,
+          -radioPetalo
         );
-        gradienteFrontal.addColorStop(0, premio.color || "#FFF0F5");
+        gradienteFrontal.addColorStop(0, "#FFF0F5");
         gradienteFrontal.addColorStop(0.45, "#FFC0CB");
         gradienteFrontal.addColorStop(1, "#FF8DA1");
         ctx.fillStyle = gradienteFrontal;
@@ -133,29 +148,30 @@ export default function RuletaCanvas({
       ctx.strokeStyle = agotado ? "#BDBDBD" : "rgba(255, 255, 255, 0.9)";
       ctx.stroke();
 
-      // Línea decorativa central de la textura del pétalo (Nervadura)
+      // Línea decorativa central (Nervadura)
       ctx.beginPath();
       ctx.moveTo(0, -25);
       ctx.lineTo(0, -radioPetalo * 0.4);
       ctx.strokeStyle = agotado
         ? "rgba(0,0,0,0.05)"
-        : "rgba(255, 255, 255, 0.4)";
+        : "rgba(255, 255, 255, 0.45)";
       ctx.lineWidth = 1.5;
       ctx.stroke();
 
-      // Tipografía y Nombre del Premio
+      // Tipografía y Nombre del Premio (Orientación Radial Siempre Legible)
       ctx.save();
-      ctx.rotate(-Math.PI / 2);
+      ctx.translate(0, -radioPetalo * 0.58);
+      ctx.rotate(-Math.PI / 2); // Orientado a lo largo del pétalo
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillStyle = agotado ? "#888888" : "#800A44";
-      ctx.font =
-        "bold 13px 'Montserrat', 'Playfair Display', Roboto, sans-serif";
+      ctx.font = "bold 12px 'Montserrat', 'Roboto', sans-serif";
 
       const textoMostrar = agotado
         ? `${premio.nombre} (Agotado)`
         : premio.nombre;
-      ctx.fillText(textoMostrar, radioPetalo * 0.58, 0);
+
+      ctx.fillText(textoMostrar, 0, 0);
       ctx.restore();
 
       ctx.restore();
@@ -179,7 +195,7 @@ export default function RuletaCanvas({
       2,
       0,
       0,
-      radioCentro,
+      radioCentro
     );
     gradienteCentro.addColorStop(0, "#FFFFE0");
     gradienteCentro.addColorStop(0.25, "#FFD700");
@@ -217,7 +233,7 @@ export default function RuletaCanvas({
     // CAPA 4: Puntero Indicador Superior
     // ==========================================
     ctx.save();
-    ctx.translate(centro, 22);
+    ctx.translate(centro, 24);
     ctx.beginPath();
     ctx.moveTo(0, 26);
     ctx.bezierCurveTo(-14, 6, -12, -6, 0, -6);
@@ -231,6 +247,8 @@ export default function RuletaCanvas({
     ctx.strokeStyle = "#FFFFFF";
     ctx.stroke();
     ctx.restore();
+
+    ctx.restore(); // Restaura el escalado del Canvas DPR
   };
 
   const girar = () => {
@@ -316,7 +334,7 @@ export default function RuletaCanvas({
       )}
 
       <Box sx={{ display: "flex", justifyContent: "center", my: 2 }}>
-        <canvas ref={canvasRef} width={550} height={550} />
+        <canvas ref={canvasRef} />
       </Box>
 
       <Button
@@ -344,9 +362,14 @@ export default function RuletaCanvas({
           },
         }}
       >
-        <img src={IconPower} style={{ width: "auto", height: "20px" }} />{" "}
+        <img
+          src={IconPower}
+          alt='Power Icon'
+          style={{ width: "auto", height: "20px", marginRight: "8px" }}
+        />{" "}
         {girando ? "¡Girando ruleta...!" : "¡Girar Ruleta!"}
       </Button>
+
       <br />
       <Typography
         variant='h3'
@@ -354,7 +377,8 @@ export default function RuletaCanvas({
           fontWeight: "bold",
           color: "#fff",
           mb: 1,
-          display: "inline-block", // Asegura buen ajuste del contenedor
+          mt: 4,
+          display: "inline-block",
         }}
       >
         <img
@@ -363,7 +387,6 @@ export default function RuletaCanvas({
           style={{
             width: "300px",
             height: "auto",
-            // Aplica sombra exactamente al contorno del texto/trazo
             filter:
               "drop-shadow(1px 1px 0px #fff) drop-shadow(-1px -1px 0px #fff) drop-shadow(1px -1px 0px #fff) drop-shadow(-1px 1px 0px #fff)",
           }}
