@@ -35,7 +35,7 @@ function App() {
     { id: 2, cantidad: 1, nombre: "Gama de Gel" },
     { id: 3, cantidad: 1, nombre: "Lámpara UV" },
     { id: 4, cantidad: 1, nombre: "Pincel Kolinsky" },
-    { id: 5, cantidad: 1, nombre: "Suscripción FP" },
+    { id: 5, cantidad: 1, nombre: "Salon de tus sueños" },
   ]);
 
   const [ganadorActual, setGanadorActual] = useState(null);
